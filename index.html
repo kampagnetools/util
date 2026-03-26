@@ -3,100 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MSF Digital Manager Pro 1200x600</title>
+    <title>Digitaltool</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="dark-theme" x-data="msfApp()">
 
-<div class="app-container">
-    <div class="main-layout">
-        <nav class="nav-sidebar">
-            <div class="logo-area">MSF TOOLKIT</div>
-            <button class="nav-btn" :class="{'active': tab === 'utm'}" @click="tab = 'utm'">UTM Builder</button>
-            <button class="nav-btn" :class="{'active': tab === 'sms'}" @click="tab = 'sms'">SMS Tæller</button>
-            <button class="nav-btn" :class="{'active': tab === 'ext'}" @click="tab = 'ext'">Extractor</button>
-            <button class="nav-btn" :class="{'active': tab === 'map'}" @click="tab = 'map'; $nextTick(() => initMap())">Kort Generator</button>
-            <div style="flex:1"></div>
-            <button class="theme-btn" @click="toggleTheme()">SKIFT TEMA</button>
-        </nav>
-        
-        <div class="content-area">
-            <div x-show="tab === 'utm'" x-data="utmLogic()">
-                <div class="field"><label>Mål-URL</label><input type="text" x-model="url" placeholder="https://msf.dk/..."></div>
-                <div class="grid-2">
-                    <div class="field">
-                        <label>Kanal</label>
-                        <select x-model="chan">
-                            <option value="fb_paid">Meta Paid Social</option>
-                            <option value="fb_org">Meta Organisk</option>
-                            <option value="li_paid">LinkedIn Paid</option>
-                            <option value="em_news">Email Nyhedsbrev</option>
-                            <option value="sms_camp">SMS Kampagne</option>
-                        </select>
-                    </div>
-                    <div class="field">
-                        <label>Type</label>
-                        <select x-model="type">
-                            <option value="oneoff">One-off Donation</option>
-                            <option value="felt">Feltpartner (Fast)</option>
-                        </select>
-                    </div>
+<button class="theme-btn" @click="toggleTheme()">SKIFT TEMA</button>
+
+<div class="container" :class="{'full-width': tab === 'map'}">
+    <div class="app-card">
+        <h2>MSF DK Toolkit</h2>
+
+        <div class="nav-tabs">
+            <button :class="{'active': tab === 'utm'}" @click="tab = 'utm'">UTM Builder</button>
+            <button :class="{'active': tab === 'sms'}" @click="tab = 'sms'">SMS Tæller</button>
+            <button :class="{'active': tab === 'ext'}" @click="tab = 'ext'">Extractor</button>
+            <button :class="{'active': tab === 'map'}" @click="tab = 'map'; $nextTick(() => initMap())">Kort Generator 🌍</button>
+        </div>
+
+        <div x-show="tab === 'utm'" x-data="utmLogic()">
+            <div class="field"><label>Mål-URL</label><input type="text" x-model="url" placeholder="https://"></div>
+            <div class="grid-2">
+                <div class="field">
+                    <label>Kanal</label>
+                    <select x-model="chan">
+                        <option value="fb_paid">Meta Paid Social</option>
+                        <option value="fb_org">Meta Organisk</option>
+                        <option value="li_paid">LinkedIn Paid</option>
+                        <option value="em_news">Email Nyhedsbrev</option>
+                        <option value="sms_camp">SMS Kampagne</option>
+                    </select>
                 </div>
-                <div class="grid-2">
-                    <div class="field"><label>Kampagnekode</label><input type="text" x-model="code" maxlength="4"></div>
-                    <div class="field">
-                        <label>Versionering</label>
-                        <select x-model="vCount">
-                            <option value="1">1 version</option><option value="2">2 versioner</option><option value="3">3 versioner</option>
-                        </select>
-                    </div>
-                </div>
-                <button class="btn-main" @click="build()">GENERÉR LINKS</button>
-                <div x-show="links.length" class="link-res">
-                    <template x-for="l in links">
-                        <input type="text" :value="l.url" readonly @click="copy(l.url)" class="copy-input">
-                    </template>
+                <div class="field">
+                    <label>Type</label>
+                    <select x-model="type">
+                        <option value="oneoff">One-off Donation</option>
+                        <option value="felt">Feltpartner (Fast)</option>
+                    </select>
                 </div>
             </div>
-
-            <div x-show="tab === 'sms'" x-data="{ msg: '' }">
-                <textarea rows="15" x-model="msg" placeholder="Skriv din SMS her..."></textarea>
-                <div class="sms-info">
-                    Tegn: <span x-text="msg.length"></span> | 
-                    SMS: <span x-text="msg.length <= 160 ? (msg.length > 0 ? 1 : 0) : Math.ceil(msg.length/153)"></span>
+            <div class="grid-2">
+                <div class="field"><label>Kampagnekode (4 cifre)</label><input type="text" x-model="code" maxlength="4"></div>
+                <div class="field">
+                    <label>Versionering</label>
+                    <select x-model="vCount">
+                        <option value="1">1 version</option><option value="2">2 versioner</option><option value="3">3 versioner</option>
+                    </select>
                 </div>
             </div>
-
-            <div x-show="tab === 'ext'" x-data="extLogic()">
-                <input type="text" x-model="inp" placeholder="Indsæt link her...">
-                <button class="btn-main" @click="run()" style="margin-top:10px;">ANALYSER</button>
-                <div x-show="res.length" class="ext-res">
-                    <template x-for="r in res">
-                        <div class="ext-row"><span x-text="r.k"></span><span x-text="r.v" @click="copy(r.v)" class="red-text"></span></div>
-                    </template>
-                </div>
+            <button class="btn-main" @click="build()">GENERÉR LINKS</button>
+            <div x-show="links.length" class="link-res">
+                <template x-for="l in links">
+                    <div style="margin-bottom:10px;">
+                        <input type="text" :value="l.url" readonly @click="copy(l.url)" style="cursor:pointer; font-size:13px; color:#e30613; font-weight:bold;">
+                    </div>
+                </template>
             </div>
+        </div>
 
-            <div x-show="tab === 'map'" id="map-workspace">
-                <div id="map-container">
-                    <svg id="svg-canvas"></svg>
-                    <div id="msf-box">
-                        <div class="drag-handle">MSF BOKS</div>
-                        <div class="box-inner">
-                            <div id="box-h" contenteditable="true">OVERSKRIFT</div>
-                            <div id="box-s" contenteditable="true">Underskrift her</div>
+        <div x-show="tab === 'sms'" x-data="{ msg: '' }">
+            <textarea rows="10" x-model="msg" placeholder="Indtast din SMS tekst her..."></textarea>
+            <div style="margin-top:15px; font-weight:bold; display:flex; gap:30px;">
+                <span>Tegn: <span x-text="msg.length"></span></span>
+                <span>Antal SMS'er: <span x-text="msg.length <= 160 ? (msg.length > 0 ? 1 : 0) : Math.ceil(msg.length/153)"></span></span>
+            </div>
+        </div>
+
+        <div x-show="tab === 'ext'" x-data="extLogic()">
+            <input type="text" x-model="inp" placeholder="Indsæt URL her">
+            <button class="btn-main" @click="run()" style="margin-top:10px;">ANALYSER LINK</button>
+            <div x-show="res.length" style="margin-top:20px; background:rgba(255,255,255,0.05); border-radius:10px;">
+                <template x-for="r in res">
+                    <div style="display:flex; justify-content:space-between; padding:12px; border-bottom:1px solid #444;">
+                        <span x-text="r.k" style="font-weight:bold; opacity:0.7;"></span>
+                        <span x-text="r.v" @click="copy(r.v)" style="color:var(--accent); cursor:pointer; font-weight:bold;"></span>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <div x-show="tab === 'map'" x-data="mapLogic()">
+            <div id="map-area">
+                <svg id="svg-canvas"></svg>
+                <div id="msf-box">
+                    <div class="drag-handle">MSF INFO BOKS (TRÆK HER)</div>
+                    <div style="padding: 15px; color: black;">
+                        <div id="box-h" contenteditable="true" style="font-weight:900; font-size:22px; outline:none; text-transform:uppercase;">OVERSKRIFT</div>
+                        <div style="display:flex; align-items:center; margin-top:10px;">
+                            <div style="width:12px; height:12px; background:red; border-radius:50%; margin-right:8px;"></div>
+                            <div id="box-s" contenteditable="true" style="font-size:15px; outline:none; font-weight:bold;">Underskrift her</div>
                         </div>
                     </div>
-                    <div id="labels-container"></div>
                 </div>
-                <div class="map-bar">
-                    <div class="controls-left">
-                        <label>Tekst:</label>
-                        <input type="range" min="10" max="30" @input="updateSize($event.target.value)">
-                        <button class="btn-sm" @click="resetZoom()">Reset Zoom</button>
-                    </div>
-                    <button class="btn-main" @click="exportMap()" style="width:auto; padding:0 30px;">KOPIÉR HTML</button>
+                <div id="labels-container" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none;"></div>
+            </div>
+
+            <div class="map-bar">
+                <div style="display:flex; gap:20px; align-items:center;">
+                    <label>Tekststørrelse:</label>
+                    <input type="range" min="10" max="35" x-model="fontSize" @input="updateSize()">
+                    <button @click="reset()">Nulstil Zoom</button>
                 </div>
+                <button class="btn-main" @click="exportCode()" style="margin:0; width:auto; padding:10px 40px;">KOPIÉR FÆRDIG HTML</button>
             </div>
         </div>
     </div>
