@@ -1,126 +1,43 @@
 :root {
-    --bg: #ffffff;
-    --card-bg: #ffffff;
-    --text-main: #000000;
-    --text-muted: #64748b;
-    --accent: #e30613;
-    --border: #e2e8f0;
-    --water: #b5d5d5;
-    --land: #f3ece6;
+    --bg: #f4f4f4; --card-bg: #ffffff; --text: #1a1a1a; --accent: #e30613;
+    --input-bg: #ffffff; --input-border: #d1d5db; --button-bg: #e30613;
+    --table-border: #e5e7eb; --water: #b5d5d5; --land: #f3ece6;
 }
-
-body { 
-    margin: 0; 
-    background: var(--bg); 
-    color: var(--text-main); 
-    font-family: -apple-system, system-ui, sans-serif;
-    -webkit-font-smoothing: antialiased;
+body.dark-theme {
+    --bg: #0f172a; --card-bg: #1e293b; --text: #f8fafc; --input-bg: #334155;
+    --input-border: #475569; --table-border: #334155;
 }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; transition: 0.3s; padding-bottom: 50px; }
 
-.container { 
-    max-width: 1200px; 
-    margin: 40px auto; 
-    padding: 0 20px; 
-    transition: max-width 0.3s ease;
-}
+.container { max-width: 1200px; margin: 40px auto; padding: 0 20px; transition: 0.4s; }
+.full-width { max-width: 98% !important; margin: 15px auto !important; }
 
-.container.full-width { 
-    max-width: 98% !important; 
-    margin: 10px auto !important; 
-}
+.app-card { background: var(--card-bg); padding: 30px; border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+h2 { color: var(--accent); text-transform: uppercase; margin: 0 0 25px 0; text-align: center; font-weight: 800; }
 
-.app-card { 
-    background: var(--card-bg); 
-    padding: 30px; 
-    border: 1px solid var(--border);
-    border-radius: 0; /* Firkantet look */
-}
+.nav-tabs { display: flex; gap: 8px; margin-bottom: 30px; background: rgba(0,0,0,0.05); padding: 5px; border-radius: 12px; }
+.nav-tabs button { flex: 1; padding: 12px; border: none; border-radius: 8px; background: transparent; color: var(--text); cursor: pointer; font-weight: 600; transition: 0.2s; }
+.nav-tabs button.active { background: var(--accent); color: white; box-shadow: 0 4px 6px rgba(227, 6, 19, 0.2); }
 
-h2 { 
-    color: var(--text-main); 
-    font-size: 20px;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin: 0 0 25px 0;
-    border-left: 5px solid var(--accent);
-    padding-left: 15px;
-}
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.field { margin-bottom: 20px; }
+label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; }
+input, select, textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text); font-size: 15px; box-sizing: border-box; }
+.btn-main { background: var(--accent); color: white; border: none; padding: 16px; width: 100%; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 16px; }
 
-.nav-tabs { 
-    display: flex; 
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 25px;
-    gap: 25px;
-}
-
-.nav-tabs button { 
-    padding: 12px 0; 
-    border: none; 
-    background: transparent; 
-    color: var(--text-muted); 
-    cursor: pointer; 
-    font-weight: 700; 
-    font-size: 13px;
-    text-transform: uppercase;
-    position: relative;
-}
-
-.nav-tabs button.active { color: var(--accent); }
-.nav-tabs button.active::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--accent);
-}
-
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-.field { margin-bottom: 15px; }
-label { display: block; margin-bottom: 5px; font-weight: 800; font-size: 11px; text-transform: uppercase; }
-
-input, select, textarea { 
-    width: 100%; 
-    padding: 12px; 
-    border: 1px solid var(--border); 
-    border-radius: 0;
-    font-size: 14px;
-    outline: none;
-}
-
-input:focus { border-color: var(--text-main); }
-
-.btn-main { 
-    background: var(--accent); 
-    color: white; 
-    border: none; 
-    padding: 15px; 
-    font-weight: 900; 
-    text-transform: uppercase;
-    cursor: pointer; 
-    transition: 0.2s;
-}
-
-.btn-main:hover { background: #000; }
-
-#map-area { 
-    position: relative; 
-    height: 75vh; /* Gør kortet højt og fyldigt */
-    background: var(--water); 
-    border: 1px solid var(--border);
-}
-
-.country { fill: var(--land); stroke: #94a3b8; stroke-width: 0.4px; }
+#map-area { position: relative; height: 75vh; background: var(--water); border-radius: 12px; overflow: hidden; border: 2px solid #334155; }
+svg { width: 100%; height: 100%; }
+.country { fill: var(--land); stroke: #94a3b8; stroke-width: 0.4px; cursor: pointer; }
 .country.active { fill: var(--accent) !important; }
 
-#msf-box { 
-    position: absolute; top: 20px; left: 20px; 
-    background: white; border-left: 5px solid var(--accent);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
+#msf-box { position: absolute; top: 15px; left: 15px; background: white; color: black; width: 280px; box-shadow: 0 10px 15px rgba(0,0,0,0.3); z-index: 100; border-radius: 4px; border-left: 6px solid var(--accent); }
+.drag-handle { background: var(--accent); height: 24px; cursor: move; color: white; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 900; }
 
-.drag-handle { background: #000; color: #fff; font-size: 9px; padding: 5px; cursor: move; font-weight: 900; text-align: center; }
+.label-wrap { position: absolute; transform: translate(-50%, -100%); z-index: 50; display: flex; flex-direction: column; align-items: center; pointer-events: auto; }
+.label-box { background: white; padding: 5px 12px; color: black; font-weight: 900; text-transform: uppercase; border: 1px solid #cbd5e1; cursor: move; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.label-url-input { width: 90px; font-size: 9px; padding: 3px; margin-top: 2px; border: 1px solid #ccc; border-radius: 3px; outline: none; background: #fff; color: #333; }
 
-.link-res { margin-top: 20px; padding: 15px; background: #f8fafc; border: 1px dashed var(--border); }
+.map-bar { display: flex; gap: 20px; background: var(--input-bg); padding: 15px; margin-top: 15px; border-radius: 12px; align-items: center; justify-content: space-between; border: 1px solid var(--table-border); }
+
+.theme-btn { position: fixed; top: 15px; right: 15px; cursor: pointer; background: #334155; color: white; border: none; padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; z-index: 1001; }
+.link-res { margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.05); border-radius: 12px; border: 1px dashed var(--accent); }
