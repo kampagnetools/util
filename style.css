@@ -1,43 +1,163 @@
 :root {
-    --bg: #f4f4f4; --card-bg: #ffffff; --text: #1a1a1a; --accent: #e30613;
-    --input-bg: #ffffff; --input-border: #d1d5db; --button-bg: #e30613;
-    --table-border: #e5e7eb; --water: #b5d5d5; --land: #f3ece6;
+    /* Farvepalette baseret på Helper-værktøjet */
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --accent: #e30613;
+    --accent-hover: #c10511;
+    --input-bg: #ffffff;
+    --input-border: #e2e8f0;
+    --input-focus: #94a3b8;
+    --nav-bg: #f1f5f9;
+    --water: #cbd5e1;
+    --land: #ffffff;
 }
-body.dark-theme {
-    --bg: #0f172a; --card-bg: #1e293b; --text: #f8fafc; --input-bg: #334155;
-    --input-border: #475569; --table-border: #334155;
+
+/* Body setup */
+body { 
+    margin: 0; 
+    background: var(--bg); 
+    color: var(--text); 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    padding-bottom: 50px; 
 }
-body { margin: 0; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; transition: 0.3s; padding-bottom: 50px; }
 
-.container { max-width: 1200px; margin: 40px auto; padding: 0 20px; transition: 0.4s; }
-.full-width { max-width: 98% !important; margin: 15px auto !important; }
+/* Container & Cards */
+.container { 
+    max-width: 1000px; /* Mere kompakt som helper-værktøjet */
+    margin: 60px auto; 
+    padding: 0 20px; 
+}
 
-.app-card { background: var(--card-bg); padding: 30px; border-radius: 16px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
-h2 { color: var(--accent); text-transform: uppercase; margin: 0 0 25px 0; text-align: center; font-weight: 800; }
+.app-card { 
+    background: var(--card-bg); 
+    padding: 40px; 
+    border-radius: 8px; 
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+}
 
-.nav-tabs { display: flex; gap: 8px; margin-bottom: 30px; background: rgba(0,0,0,0.05); padding: 5px; border-radius: 12px; }
-.nav-tabs button { flex: 1; padding: 12px; border: none; border-radius: 8px; background: transparent; color: var(--text); cursor: pointer; font-weight: 600; transition: 0.2s; }
-.nav-tabs button.active { background: var(--accent); color: white; box-shadow: 0 4px 6px rgba(227, 6, 19, 0.2); }
+h2 { 
+    color: var(--text); 
+    font-size: 24px;
+    letter-spacing: -0.025em;
+    margin: 0 0 30px 0; 
+    text-align: left; 
+    font-weight: 700; 
+}
 
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+/* Navigation Tabs */
+.nav-tabs { 
+    display: flex; 
+    gap: 4px; 
+    margin-bottom: 30px; 
+    background: var(--nav-bg); 
+    padding: 4px; 
+    border-radius: 6px; 
+}
+
+.nav-tabs button { 
+    flex: 1; 
+    padding: 8px 16px; 
+    border: none; 
+    border-radius: 4px; 
+    background: transparent; 
+    color: #64748b; 
+    cursor: pointer; 
+    font-weight: 500; 
+    font-size: 14px;
+    transition: all 0.2s; 
+}
+
+.nav-tabs button.active { 
+    background: white; 
+    color: var(--text); 
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* Forms & Inputs */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .field { margin-bottom: 20px; }
-label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; }
-input, select, textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text); font-size: 15px; box-sizing: border-box; }
-.btn-main { background: var(--accent); color: white; border: none; padding: 16px; width: 100%; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 16px; }
 
-#map-area { position: relative; height: 75vh; background: var(--water); border-radius: 12px; overflow: hidden; border: 2px solid #334155; }
-svg { width: 100%; height: 100%; }
-.country { fill: var(--land); stroke: #94a3b8; stroke-width: 0.4px; cursor: pointer; }
-.country.active { fill: var(--accent) !important; }
+label { 
+    display: block; 
+    margin-bottom: 6px; 
+    font-weight: 500; 
+    font-size: 13px; 
+    color: #64748b;
+}
 
-#msf-box { position: absolute; top: 15px; left: 15px; background: white; color: black; width: 280px; box-shadow: 0 10px 15px rgba(0,0,0,0.3); z-index: 100; border-radius: 4px; border-left: 6px solid var(--accent); }
-.drag-handle { background: var(--accent); height: 24px; cursor: move; color: white; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 900; }
+input, select, textarea { 
+    width: 100%; 
+    padding: 10px 12px; 
+    border-radius: 6px; 
+    border: 1px solid var(--input-border); 
+    background: var(--input-bg); 
+    color: var(--text); 
+    font-size: 14px; 
+    outline: none;
+    transition: border-color 0.2s;
+}
 
-.label-wrap { position: absolute; transform: translate(-50%, -100%); z-index: 50; display: flex; flex-direction: column; align-items: center; pointer-events: auto; }
-.label-box { background: white; padding: 5px 12px; color: black; font-weight: 900; text-transform: uppercase; border: 1px solid #cbd5e1; cursor: move; white-space: nowrap; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-.label-url-input { width: 90px; font-size: 9px; padding: 3px; margin-top: 2px; border: 1px solid #ccc; border-radius: 3px; outline: none; background: #fff; color: #333; }
+input:focus, select:focus {
+    border-color: var(--input-focus);
+}
 
-.map-bar { display: flex; gap: 20px; background: var(--input-bg); padding: 15px; margin-top: 15px; border-radius: 12px; align-items: center; justify-content: space-between; border: 1px solid var(--table-border); }
+/* Buttons */
+.btn-main { 
+    background: var(--accent); 
+    color: white; 
+    border: none; 
+    padding: 12px 20px; 
+    width: 100%; 
+    border-radius: 6px; 
+    font-weight: 600; 
+    cursor: pointer; 
+    font-size: 14px; 
+    transition: background 0.2s;
+}
 
-.theme-btn { position: fixed; top: 15px; right: 15px; cursor: pointer; background: #334155; color: white; border: none; padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; z-index: 1001; }
-.link-res { margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.05); border-radius: 12px; border: 1px dashed var(--accent); }
+.btn-main:hover { background: var(--accent-hover); }
+
+/* Map Area Updates */
+#map-area { 
+    position: relative; 
+    height: 60vh; 
+    background: #e2e8f0; 
+    border-radius: 8px; 
+    border: 1px solid var(--input-border);
+}
+
+.country { fill: #ffffff; stroke: #cbd5e1; stroke-width: 0.5px; }
+.country.active { fill: var(--accent) !important; stroke: #ffffff; }
+
+/* Labels & Info Box */
+#msf-box { 
+    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.label-box {
+    border-radius: 2px;
+    border: 1px solid #e2e8f0;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+
+/* Result Box */
+.link-res { 
+    margin-top: 24px; 
+    padding: 16px; 
+    background: #f8fafc; 
+    border-radius: 6px; 
+    border: 1px solid #e2e8f0; 
+}
+
+.link-res input {
+    background: white;
+    color: var(--accent);
+    font-family: monospace;
+    font-weight: 500;
+}
